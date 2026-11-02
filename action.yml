@@ -1,0 +1,22 @@
+name: SIR review
+description: Plain-English review of SIR contract changes in pull requests. Fails like a test when a tested change comes without a test change.
+author: rederive
+branding:
+  icon: file-text
+  color: orange
+inputs:
+  github-token:
+    description: Token for posting the PR comment and the line notes. The default works with `pull-requests: write`.
+    default: ${{ github.token }}
+  fail-on:
+    description: "`stop` fails the check when the review finds a Stop; `never` only reports."
+    default: stop
+  comment:
+    description: Post one PR comment with the review, and update it on every push.
+    default: 'true'
+  line-notes:
+    description: Post notes on the changed lines of tested parts.
+    default: 'true'
+runs:
+  using: node24
+  main: dist/index.mjs
