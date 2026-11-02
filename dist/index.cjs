@@ -1,17 +1,17 @@
 // rederive/sir-review: built from src/index.mjs and the rederive npm package (npm run build). Do not edit.
 
 // src/index.mjs
-import { execFileSync as execFileSync2 } from "node:child_process";
-import { readFileSync as readFileSync5 } from "node:fs";
+var import_node_child_process2 = require("node:child_process");
+var import_node_fs5 = require("node:fs");
 
 // node_modules/rederive/cli/lsp/pr-review.mjs
-import { execFileSync } from "node:child_process";
-import { readFileSync as readFileSync4, writeFileSync } from "node:fs";
-import { dirname, basename as basename2, join as join3, posix } from "node:path";
+var import_node_child_process = require("node:child_process");
+var import_node_fs4 = require("node:fs");
+var import_node_path3 = require("node:path");
 
 // node_modules/rederive/cli/sir/sir-parse.mjs
-import { createHash } from "node:crypto";
-var sha256 = (s) => createHash("sha256").update(s).digest("hex");
+var import_node_crypto = require("node:crypto");
+var sha256 = (s) => (0, import_node_crypto.createHash)("sha256").update(s).digest("hex");
 var DIRECTIVES = {
   UNIT: "B:lb",
   SIR: "P:legacy",
@@ -200,7 +200,7 @@ var canonicalSha = (text2) => sha256(canonicalText(text2));
 var get = (ast, name) => ast.find((d) => d.name === name) ?? null;
 
 // node_modules/rederive/cli/sir/canon.mjs
-import { createHash as createHash2 } from "node:crypto";
+var import_node_crypto2 = require("node:crypto");
 var ENCODING = "sir-canonical-v1";
 var TYPES = ["text", "bytes", "bool", "none", "i64", "u64", "f64", "json"];
 var QNAN = 0x7ff8000000000000n;
@@ -541,7 +541,7 @@ function canonicalString(x, depth = 0) {
   }
   throw new Error(`not canonical: ${x === null ? "null" : x === void 0 ? "undefined" : typeof x === "object" ? Object.prototype.toString.call(x) : typeof x}`);
 }
-var sha2562 = (s) => createHash2("sha256").update(s).digest("hex");
+var sha2562 = (s) => (0, import_node_crypto2.createHash)("sha256").update(s).digest("hex");
 var vectorSetSha = (o) => sha2562(canonicalString({ frozen: o.frozen.map((c) => ({ args: c.args, expected: c.expected })), heldout: o.heldout.map((c) => ({ args: c.args, expected: c.expected })) }));
 
 // node_modules/rederive/cli/lsp/explain.mjs
@@ -706,8 +706,8 @@ function oracleDiff(beforeJson, afterJson) {
 }
 
 // node_modules/rederive/cli/sir/legacy-print.mjs
-import { createHash as createHash3 } from "node:crypto";
-var sha2563 = (s) => createHash3("sha256").update(s).digest("hex");
+var import_node_crypto3 = require("node:crypto");
+var sha2563 = (s) => (0, import_node_crypto3.createHash)("sha256").update(s).digest("hex");
 var DIRECTIVES2 = {
   UNIT: "B:lb",
   SIR: "P:legacy",
@@ -850,13 +850,13 @@ function print(ast) {
 var legacyPrintSha = (text2) => sha2563(print(parse2(text2).ast));
 
 // node_modules/rederive/cli/sir/validate.mjs
-import { readFileSync as readFileSync2, existsSync as existsSync2, readdirSync as readdirSync2 } from "node:fs";
-import { join as join2, basename, resolve } from "node:path";
+var import_node_fs2 = require("node:fs");
+var import_node_path2 = require("node:path");
 
 // node_modules/rederive/cli/sir/v05.mjs
-import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { createHash as createHash4 } from "node:crypto";
-import { join } from "node:path";
+var import_node_fs = require("node:fs");
+var import_node_crypto4 = require("node:crypto");
+var import_node_path = require("node:path");
 
 // node_modules/rederive/cli/capabilities.json
 var capabilities_default = {
@@ -1197,7 +1197,7 @@ checkCapabilities(capabilities_default);
 
 // node_modules/rederive/cli/sir/v05.mjs
 var LANGS = languageRegistry();
-var sha2564 = (buf) => createHash4("sha256").update(buf).digest("hex");
+var sha2564 = (buf) => (0, import_node_crypto4.createHash)("sha256").update(buf).digest("hex");
 var directive = (text2, name) => {
   if (typeof name !== "string" || !/^(?:[A-Z][A-Z0-9-]*|R[0-9]+)$/.test(name)) throw new Error(`not a directive name: ${JSON.stringify(name)}`);
   if (ATTR_ONLY.has(name)) throw new Error(`${name} is an attribute, never a directive: read it from a directive's attrs`);
@@ -1205,14 +1205,14 @@ var directive = (text2, name) => {
   return d ? [d.args, ...d.cont].filter(Boolean).join(" ") : null;
 };
 function family(sirDir, unit) {
-  const primaryPath = join(sirDir, `${unit}.sir`);
-  if (!existsSync(primaryPath)) throw new Error(`no primary: ${primaryPath}`);
-  const primaryBytes = readFileSync(primaryPath);
+  const primaryPath = (0, import_node_path.join)(sirDir, `${unit}.sir`);
+  if (!(0, import_node_fs.existsSync)(primaryPath)) throw new Error(`no primary: ${primaryPath}`);
+  const primaryBytes = (0, import_node_fs.readFileSync)(primaryPath);
   const primary = primaryBytes.toString("utf8");
   const primarySha = canonicalSha(primary);
   const legacySha = legacyPrintSha(primary);
   const langs = {}, errors = [], warnings = [];
-  for (const f of readdirSync(sirDir).sort()) {
+  for (const f of (0, import_node_fs.readdirSync)(sirDir).sort()) {
     const m = f.match(/^(.+?)\.([^.]+)\.sir$/);
     if (!m || m[1] !== unit) continue;
     const lang = m[2];
@@ -1220,12 +1220,12 @@ function family(sirDir, unit) {
       errors.push(`${f}: '${lang}' is not in the closed language registry ${[...LANGS].join(",")}`);
       continue;
     }
-    const bytes = readFileSync(join(sirDir, f));
+    const bytes = (0, import_node_fs.readFileSync)((0, import_node_path.join)(sirDir, f));
     const text2 = bytes.toString("utf8");
     const bound = text2.match(/^PRIMARY-SHA256\s+([0-9a-f]{64})/m)?.[1] ?? null;
     const declared = directive(text2, "LANG");
     const legacyBinding = bound !== null && bound !== primarySha && bound === legacySha;
-    const entry = { lang, path: join(sirDir, f), text: text2, sha: sha2564(bytes), bound, stale: bound !== primarySha && !legacyBinding, legacyBinding, declared };
+    const entry = { lang, path: (0, import_node_path.join)(sirDir, f), text: text2, sha: sha2564(bytes), bound, stale: bound !== primarySha && !legacyBinding, legacyBinding, declared };
     if (!bound) errors.push(`${f}: no PRIMARY-SHA256 binding`);
     else if (legacyBinding) errors.push(`${f}: LEGACY BINDING \u2014 bound to the pre-2026-10-26 print hash, which does not cover every character of the primary (an edit there after binding is invisible to it); re-bind it`);
     else if (entry.stale) errors.push(`${f}: STALE \u2014 bound to ${bound.slice(0, 12)}\u2026, primary is ${primarySha.slice(0, 12)}\u2026 (declared, not a claim)`);
@@ -1425,7 +1425,7 @@ function carriedBinding(langText) {
   return m ? { name: m[1], module: m[2] } : null;
 }
 function carriedTable(lang, filePath, decl = null) {
-  const src = readFileSync(filePath, "utf8");
+  const src = (0, import_node_fs.readFileSync)(filePath, "utf8");
   if (lang === "rust") return rustCarriedTable(src, filePath, typeof decl === "string" ? decl : decl?.shape ?? null);
   return JSON.parse(src.slice(src.indexOf("{"), src.lastIndexOf("}") + 1));
 }
@@ -1752,21 +1752,22 @@ function schemaLint(text2, carriedName) {
 }
 
 // node_modules/rederive/cli/sir/validate.mjs
+var import_meta = {};
 var PSEUDO = /* @__PURE__ */ new Set(["LET", "FOR", "RETURN", "NODE", "CONTROL", "ERROR", "THROW-PATHS", "BEHAVIORAL", "OBSERVABLE", "PURITY", "FIREWALL", "ELSE", "TERMINATOR-SPLIT", "STEP", "GATE", "IF", "WHILE"]);
 var META = /* @__PURE__ */ new Set(["EMISSION", "RE-EMITTER", "EMISSION-CONTRACT", "EMITTER-DIRECTIVE", "EMISSION-INTERFACE", "ABOUT", "SETUP", "FINALIZE"]);
 function validate(unitDir, { mode = "strict", enforceDensity = false, gate = 0.1, unit: unitName = null } = {}) {
   const errors = [], warnings = [], advisories = [];
   const E = (code, where, line, msg = "") => errors.push({ code, where, line, msg: String(msg).slice(0, 120) });
   const W = (code, where, line, msg = "") => warnings.push({ code, where, line, msg: String(msg).slice(0, 120) });
-  const unit = unitName ?? basename(resolve(unitDir));
+  const unit = unitName ?? (0, import_node_path2.basename)((0, import_node_path2.resolve)(unitDir));
   const facts = { unit, mode };
   let fam;
-  const sirDir = join2(unitDir, "sir");
+  const sirDir = (0, import_node_path2.join)(unitDir, "sir");
   let unicodeOk = true;
   const strictUtf8 = new TextDecoder("utf-8", { fatal: true });
-  if (existsSync2(sirDir)) for (const f of readdirSync2(sirDir).filter((x) => x.endsWith(".sir"))) {
+  if ((0, import_node_fs2.existsSync)(sirDir)) for (const f of (0, import_node_fs2.readdirSync)(sirDir).filter((x) => x.endsWith(".sir"))) {
     try {
-      strictUtf8.decode(readFileSync2(join2(sirDir, f)));
+      strictUtf8.decode((0, import_node_fs2.readFileSync)((0, import_node_path2.join)(sirDir, f)));
     } catch {
       E("E_NOT_UNICODE", f, 0, "not valid UTF-8: an invalid byte sequence would read as U+FFFD and bind like any other");
       unicodeOk = false;
@@ -1774,7 +1775,7 @@ function validate(unitDir, { mode = "strict", enforceDensity = false, gate = 0.1
   }
   if (!unicodeOk) return finish();
   try {
-    fam = family(join2(unitDir, "sir"), unit);
+    fam = family((0, import_node_path2.join)(unitDir, "sir"), unit);
   } catch (e) {
     E("E_NO_PRIMARY", "primary", 0, e.message);
     return finish();
@@ -1812,7 +1813,7 @@ function validate(unitDir, { mode = "strict", enforceDensity = false, gate = 0.1
         continue;
       }
       const base = b.module.split("/").pop();
-      const path = [join2(unitDir, "carried", base), join2(unitDir, "runs", base)].find(existsSync2);
+      const path = [(0, import_node_path2.join)(unitDir, "carried", base), (0, import_node_path2.join)(unitDir, "runs", base)].find(import_node_fs2.existsSync);
       if (!path) {
         E("E_CARRIED_MISSING", lang, 0, b.module);
         continue;
@@ -1836,10 +1837,10 @@ function validate(unitDir, { mode = "strict", enforceDensity = false, gate = 0.1
       if (c.status !== "attested") E("E_CARRIED_" + c.status.toUpperCase().replace(/-/g, "_"), lang, 0, `${c.status} (${c.sha.slice(0, 12)})`);
     }
   }
-  const op = join2(unitDir, "oracles", `${unit}.json`);
-  if (!existsSync2(op)) W("W_NO_ORACLE", "oracle", 0);
+  const op = (0, import_node_path2.join)(unitDir, "oracles", `${unit}.json`);
+  if (!(0, import_node_fs2.existsSync)(op)) W("W_NO_ORACLE", "oracle", 0);
   else {
-    const o = JSON.parse(readFileSync2(op, "utf8"));
+    const o = JSON.parse((0, import_node_fs2.readFileSync)(op, "utf8"));
     if (o.encoding !== ENCODING) W("W_ORACLE_LEGACY", "oracle", 0, "untyped \u2014 run tools/encode-oracle.mjs");
     else {
       const vs = vectorSetSha(o);
@@ -1850,7 +1851,7 @@ function validate(unitDir, { mode = "strict", enforceDensity = false, gate = 0.1
       facts.oracle = { frozen: o.frozen.length, heldout: o.heldout.length, sha: vs };
     }
   }
-  advisories.push({ tier: "jev", status: process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY || existsSync2(process.env.JEV_ENV_FILE ?? join2(process.env.HOME ?? "", "jev-bakeoff", ".env")) ? "available via tools/jev_advisory.py (predict at prepare, triage at grade; advisory only)" : "not run (no key) \u2014 never affects the exit code" });
+  advisories.push({ tier: "jev", status: process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY || (0, import_node_fs2.existsSync)(process.env.JEV_ENV_FILE ?? (0, import_node_path2.join)(process.env.HOME ?? "", "jev-bakeoff", ".env")) ? "available via tools/jev_advisory.py (predict at prepare, triage at grade; advisory only)" : "not run (no key) \u2014 never affects the exit code" });
   return finish();
   function finish() {
     const seen = /* @__PURE__ */ new Set();
@@ -1905,7 +1906,7 @@ function validateText(text2, { mode = "strict", reg: reg2 = "P" } = {}) {
   }
   return { errors, warnings };
 }
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import_meta.url === `file://${process.argv[1]}`) {
   const a = process.argv.slice(2);
   const dir = a.find((x) => !x.startsWith("--"));
   const opt = (k) => {
@@ -1924,6 +1925,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 }
 
 // node_modules/rederive/cli/sir/directive-table.mjs
+var import_meta2 = {};
 var MEANINGS = {
   UNIT: "The unit name; the first line of every file (primary and language). Supersedes `SIR`.",
   SIR: "The v0.1 header. Read, never written.",
@@ -1990,13 +1992,14 @@ function table() {
   out.push("| `R<n>` | primary | load-bearing | One numbered rule under `BEHAVIOR`. |");
   return out.join("\n");
 }
-if (import.meta.url === `file://${process.argv[1]}`) console.log(table());
+if (import_meta2.url === `file://${process.argv[1]}`) console.log(table());
 
 // node_modules/rederive/cli/lsp/spec-sections.mjs
-import { readFileSync as readFileSync3 } from "node:fs";
+var import_node_fs3 = require("node:fs");
+var import_meta3 = {};
 var slug = (heading) => heading.toLowerCase().replace(/[^\p{L}\p{N}_\- ]/gu, "").replace(/ /g, "-");
 var sectionsOf = (schema) => Object.fromEntries([...schema.matchAll(/^## ((\d+[a-z]?)\.\s.*)$/gm)].map(([, h, n]) => [n, slug(h)]));
-if (import.meta.url === `file://${process.argv[1]}`) console.log(JSON.stringify(sectionsOf(readFileSync3(process.argv[2], "utf8")), null, 1));
+if (import_meta3.url === `file://${process.argv[1]}`) console.log(JSON.stringify(sectionsOf((0, import_node_fs3.readFileSync)(process.argv[2], "utf8")), null, 1));
 
 // node_modules/rederive/cli/lsp/analyze.mjs
 var safeSha = (text2) => {
@@ -2026,7 +2029,7 @@ var NOTE = "<!-- sir-review:inline -->";
 var FAMILY_FILE = /^(.+?)\.([^.]+)\.sir$/;
 var git = (args) => {
   try {
-    return execFileSync("git", args, { encoding: "utf8", maxBuffer: 64 << 20, stdio: ["ignore", "pipe", "ignore"] });
+    return (0, import_node_child_process.execFileSync)("git", args, { encoding: "utf8", maxBuffer: 64 << 20, stdio: ["ignore", "pipe", "ignore"] });
   } catch {
     return null;
   }
@@ -2054,15 +2057,15 @@ function review({ base, head, files = null }) {
   const sirChanged = changed.filter((f) => f.endsWith(".sir"));
   const primaries = /* @__PURE__ */ new Set(), langOnly = [];
   for (const f of changed.filter((x) => x.endsWith(".json"))) {
-    const root = dirname(dirname(f));
-    const unit = basename2(f).split(".")[0];
-    const p = posix.join(root, "sir", `${unit}.sir`);
+    const root = (0, import_node_path3.dirname)((0, import_node_path3.dirname)(f));
+    const unit = (0, import_node_path3.basename)(f).split(".")[0];
+    const p = import_node_path3.posix.join(root, "sir", `${unit}.sir`);
     if (at(head, p) !== null) primaries.add(p);
   }
   for (const f of sirChanged) {
-    const m = basename2(f).match(FAMILY_FILE);
+    const m = (0, import_node_path3.basename)(f).match(FAMILY_FILE);
     if (m) {
-      const p = posix.join(dirname(f), `${m[1]}.sir`);
+      const p = import_node_path3.posix.join((0, import_node_path3.dirname)(f), `${m[1]}.sir`);
       if (!sirChanged.includes(p)) langOnly.push(f);
     } else primaries.add(f);
   }
@@ -2071,20 +2074,20 @@ function review({ base, head, files = null }) {
   const plain = (s) => s.replace(/<[^>]+>/g, "");
   for (const path of primaries) {
     const before = at(base, path), after = at(head, path);
-    const unit = basename2(path, ".sir");
-    const root = basename2(dirname(path)) === "sir" ? dirname(dirname(path)) : dirname(path);
+    const unit = (0, import_node_path3.basename)(path, ".sir");
+    const root = (0, import_node_path3.basename)((0, import_node_path3.dirname)(path)) === "sir" ? (0, import_node_path3.dirname)((0, import_node_path3.dirname)(path)) : (0, import_node_path3.dirname)(path);
     if (after === null) {
       blocks.push(`### \`${path}\` \xB7 removed
 The contract for \`${unit}\` is deleted in this PR.`);
       continue;
     }
-    const langs = (git(["ls-tree", "--name-only", head, dirname(path) + "/"]) ?? "").split("\n").map((f) => basename2(f).match(FAMILY_FILE)).filter((m) => m && m[1] === unit).map((m) => ({ lang: m[2], path: posix.join(dirname(path), m[0]) }));
+    const langs = (git(["ls-tree", "--name-only", head, (0, import_node_path3.dirname)(path) + "/"]) ?? "").split("\n").map((f) => (0, import_node_path3.basename)(f).match(FAMILY_FILE)).filter((m) => m && m[1] === unit).map((m) => ({ lang: m[2], path: import_node_path3.posix.join((0, import_node_path3.dirname)(path), m[0]) }));
     if (before === null) {
       const rel = after.match(/^ORACLE\b.*?->\s*(\S+)/m)?.[1];
       const declared = after.match(/^ORACLE\b.*?CANONICAL-SHA256\s+([0-9a-f]{64})/m)?.[1];
       let o = null;
       try {
-        o = rel ? JSON.parse(at(head, posix.join(root, rel)) ?? "null") : null;
+        o = rel ? JSON.parse(at(head, import_node_path3.posix.join(root, rel)) ?? "null") : null;
       } catch {
       }
       let vs = null;
@@ -2122,7 +2125,7 @@ ${readable(explain(after))}`);
       continue;
     }
     const oracleRel = after.match(/^ORACLE\b.*?->\s*(\S+)/m)?.[1];
-    const op = oracleRel ? posix.join(root, oracleRel) : null;
+    const op = oracleRel ? import_node_path3.posix.join(root, oracleRel) : null;
     const oracleChanged = op ? at(base, op) !== at(head, op) : null;
     const stale = langs.filter((l) => {
       const t2 = at(head, l.path);
@@ -2228,8 +2231,8 @@ ${x.hidden ? "\u{1F648} **Hidden test" : "\u{1F440} **Visible test"} \`${x.name}
     }
   }
   for (const f of langOnly) {
-    const t = at(head, f), m = basename2(f).match(FAMILY_FILE);
-    const p = at(head, posix.join(dirname(f), `${m[1]}.sir`));
+    const t = at(head, f), m = (0, import_node_path3.basename)(f).match(FAMILY_FILE);
+    const p = at(head, import_node_path3.posix.join((0, import_node_path3.dirname)(f), `${m[1]}.sir`));
     const b = t === null ? null : p === null ? { status: "no-primary" } : bindingOf(t, p);
     blocks.push(`### \`${f}\` \xB7 ${m[2]} language file
 ${t === null ? "Removed." : b.status === "ok" ? "Changed. Still bound to the current primary." : `Changed, and its binding is **${b.status}**: \`rdv check\` refuses it until it is re-bound.`}`);
@@ -2277,7 +2280,7 @@ var all = async (url) => {
   }
 };
 async function run({ failOn: failOn2 = "stop", comment = true, notes = true } = {}) {
-  const ev2 = JSON.parse(readFileSync4(process.env.GITHUB_EVENT_PATH, "utf8"));
+  const ev2 = JSON.parse((0, import_node_fs4.readFileSync)(process.env.GITHUB_EVENT_PATH, "utf8"));
   const pr = ev2.pull_request;
   const repo = process.env.GITHUB_REPOSITORY;
   if (!pr) {
@@ -2287,7 +2290,7 @@ async function run({ failOn: failOn2 = "stop", comment = true, notes = true } = 
   const r = review({ base: pr.base.sha, head: pr.head.sha });
   const { body, inline } = r;
   if (r.findings.length) console.log(annotations(r.findings));
-  if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, summary(r), { flag: "a" });
+  if (process.env.GITHUB_STEP_SUMMARY) (0, import_node_fs4.writeFileSync)(process.env.GITHUB_STEP_SUMMARY, summary(r), { flag: "a" });
   if (!comment) return r.stops && failOn2 === "stop" ? 1 : 0;
   const mine = (await all(`/repos/${repo}/issues/${pr.number}/comments`)).find((c) => c.body?.startsWith(MARKER));
   if (mine) await gh("PATCH", `/repos/${repo}/issues/comments/${mine.id}`, { body });
@@ -2309,17 +2312,19 @@ if (!["stop", "never"].includes(failOn)) {
   process.exit(1);
 }
 process.env.GITHUB_TOKEN = input("github-token", process.env.GITHUB_TOKEN ?? "");
-var ev = JSON.parse(readFileSync5(process.env.GITHUB_EVENT_PATH, "utf8"));
+var ev = JSON.parse((0, import_node_fs5.readFileSync)(process.env.GITHUB_EVENT_PATH, "utf8"));
 for (const sha of [ev.pull_request?.base?.sha, ev.pull_request?.head?.sha].filter(Boolean)) {
   try {
-    execFileSync2("git", ["cat-file", "-e", `${sha}^{commit}`], { stdio: "ignore" });
+    (0, import_node_child_process2.execFileSync)("git", ["cat-file", "-e", `${sha}^{commit}`], { stdio: "ignore" });
   } catch {
-    execFileSync2("git", ["fetch", "--no-tags", "--quiet", "origin", sha], { stdio: "inherit" });
+    (0, import_node_child_process2.execFileSync)("git", ["fetch", "--no-tags", "--quiet", "origin", sha], { stdio: "inherit" });
   }
 }
-try {
-  process.exitCode = await run({ failOn, comment: input("comment", "true") === "true", notes: input("line-notes", "true") === "true" });
-} catch (e) {
-  console.log(`::error title=sir-review::${String(e.message).replace(/\r?\n/g, " ")}`);
-  process.exitCode = 1;
-}
+(async () => {
+  try {
+    process.exitCode = await run({ failOn, comment: input("comment", "true") === "true", notes: input("line-notes", "true") === "true" });
+  } catch (e) {
+    console.log(`::error title=sir-review::${String(e.message).replace(/\r?\n/g, " ")}`);
+    process.exitCode = 1;
+  }
+})();

@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.mjs --bundle --platform=node --format=esm --target=node22 --preserve-symlinks --outfile=dist/index.mjs --banner:js=\"// rederive/sir-review: built from src/index.mjs and the rederive npm package (npm run build). Do not edit.\" --log-level=warning",
+    "build": "esbuild src/index.mjs --bundle --platform=node --format=cjs --target=node22 --preserve-symlinks --outfile=dist/index.cjs --banner:js=\"// rederive/sir-review: built from src/index.mjs and the rederive npm package (npm run build). Do not edit.\" --log-level=warning",
     "check-dist": "npm run build && git diff --exit-code -- dist/"
   },
   "devDependencies": {

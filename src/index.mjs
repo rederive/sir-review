@@ -1,6 +1,8 @@
 // The rederive/sir-review action: rederive's `rdv review` engine (cli/lsp/pr-review.mjs, bundled from the `rederive` npm
 // package into dist/index.cjs) run on a pull_request event. It posts one sticky PR comment and line notes, writes the
 // per-contract report to the job summary, annotates every finding, and fails the check on a Stop unless fail-on is never.
+// Bundled as CommonJS on purpose: in one ESM file every module's import.meta.url is the bundle's, so rederive's
+// main-module guards (`node validate.mjs …`) would all fire.
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { run } from 'rederive/cli/lsp/pr-review.mjs';
@@ -16,5 +18,7 @@ for (const sha of [ev.pull_request?.base?.sha, ev.pull_request?.head?.sha].filte
   try { execFileSync('git', ['cat-file', '-e', `${sha}^{commit}`], { stdio: 'ignore' }); }
   catch { execFileSync('git', ['fetch', '--no-tags', '--quiet', 'origin', sha], { stdio: 'inherit' }); }
 }
-try { process.exitCode = await run({ failOn, comment: input('comment', 'true') === 'true', notes: input('line-notes', 'true') === 'true' }); }
-catch (e) { console.log(`::error title=sir-review::${String(e.message).replace(/\r?\n/g, ' ')}`); process.exitCode = 1; }
+(async () => {
+  try { process.exitCode = await run({ failOn, comment: input('comment', 'true') === 'true', notes: input('line-notes', 'true') === 'true' }); }
+  catch (e) { console.log(`::error title=sir-review::${String(e.message).replace(/\r?\n/g, ' ')}`); process.exitCode = 1; }
+})();
