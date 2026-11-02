@@ -1,5 +1,5 @@
 name: SIR review
-description: 'Plain-English review of SIR contract changes in pull requests. Fails like a test when a tested change comes without a test change.'
+description: 'Plain-English review of SIR contract changes in PRs. Fails like a test when a tested change lands without a test change.'
 author: rederive
 branding:
   icon: file-text
